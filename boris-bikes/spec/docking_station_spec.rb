@@ -5,10 +5,10 @@ RSpec.describe DockingStation do
   it { expect respond_to(:release_bike) }
 
 
-  it 'return an instance of Bike' do
-    subject.dock Bike.new
-    expect(subject.release_bike).to be_a(Bike)
-	end
+  # it 'return an instance of Bike' do
+  #   subject.dock Bike.new
+  #   expect(subject.release_bike).to be_a(Bike)
+	# end
 
 	it 'expects bike to respond to working?' do
 		expect(Bike.new.working?).to eq(true)
@@ -23,7 +23,7 @@ RSpec.describe DockingStation do
     expect(subject.bikes)
   end
 
-  it { is_expected.to respond_to(:dock).with(1).argument }
+  it { is_expected.to respond_to(:dock).with(2).argument }
 
   it 'returns docked_bikes' do
     expect(subject.instance_variable_get(:@bikes)).to eql(subject.dock Bike.new)
@@ -50,4 +50,18 @@ end
   it 'has a default capacity' do
     expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
   end
+
+  it 'bikes are working as default' do
+    bike = Bike.new
+    subject.dock(bike)
+    expect(subject.bikes).to eq([[bike, true]])
+  end
+
+  it 'can declare bikes broken' do
+    bike = Bike.new
+    subject.dock(bike, false)
+    expect(subject.bikes).to eq([[bike, false]])
+  end
+
+
 end
